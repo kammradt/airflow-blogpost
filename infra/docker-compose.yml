@@ -1,0 +1,56 @@
+version: "3.7"
+
+services:
+  airflow-tutorial:
+    build: .
+    environment:
+      - AIRFLOW_HOME=/app/airflow
+      - AIRFLOW__CORE__FERNET_KEY=TCjiZkbsIFmDYpwY6XaaxeoRagSFTQUK0FILACVpO0Y=
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=false
+      - AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS=false
+      - AIRFLOW__API__AUTH_BACKEND=airflow.api.auth.backend.default
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@airflow-tutorial-db:5433/airflow
+      - AIRFLOW_LOGGING_LOGGING_LEVEL=INFO
+      - AIRFLOW_LOGGING_FAB_LOGGING_LEVEL=INFO
+    container_name: airflow-tutorial
+    depends_on:
+      - airflow-tutorial-db
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../src/dags:/app/airflow/dags
+
+  airflow-tutorial-db:
+    image: postgres:13-alpine
+    container_name: airflow-tutorial-db
+    ports:
+      - "5433:5433"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=airflow
+      - PGPORT=5433
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - /var/lib/postgresql/data/airflow-tutorial:/var/lib/postgresql/data
+
+  airflow-cards-db:
+    image: postgres:13-alpine
+    container_name: airflow-cards-db
+    ports:
+      - "5333:5333"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=airflow_cards
+      - PGPORT=5333
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - /var/lib/postgresql/data/airflow-cards:/var/lib/postgresql/data
