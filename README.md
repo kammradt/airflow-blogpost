@@ -9,7 +9,7 @@
 </p>
 
 > :us: Hi there! This repo has the code related to this [post](LINK_DO_BLOGPOST)  
-> > :br: Oiii, eai, tudo bele? Esse repo tem o código relacionado a [esse blogpost aqui](LINK_DO_BLOGPOST).
+> > 🇧🇷 Oiii, eai, tudo bele? Esse repo tem o código relacionado a [esse blogpost aqui](LINK_DO_BLOGPOST).
 
 
 ### 🏠✨ [Homepage](LINK_DO_BLOGPOST)
