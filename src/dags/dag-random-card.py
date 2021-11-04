@@ -51,23 +51,15 @@ with DAG(
 
     create_table_cards = PostgresOperator(
         task_id='create-table-cards',
-        sql='''
-            create table if not exists cards
-            (
-                id serial constraint cards_pk primary key,
-                name text not null,
-                url text not null,
-                price float not null
-            );
-            '''
+        sql="sql/create-table-cards.sql"
     )
 
-    insert_card = get_birth_date = PostgresOperator(
-        task_id="insert-card",
-        sql="insert into cards ( name, url, price) values (%(name)s, %(url)s, %(price)s);",
-        parameters=asdict(card),
-    )
+    # insert_card = get_birth_date = PostgresOperator(
+    #     task_id="insert-card",
+    #     sql="insert into cards ( name, url, price) values (%(name)s, %(url)s, %(price)s);",
+    #     parameters=asdict(card),
+    # )
 
     end = DummyOperator(task_id='End')
 
-    start >> print_card_info >> create_table_cards >> insert_card >> end
+    start >> print_card_info >> create_table_cards >> end
