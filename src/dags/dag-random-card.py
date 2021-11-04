@@ -54,12 +54,12 @@ with DAG(
         sql="sql/create-table-cards.sql"
     )
 
-    # insert_card = get_birth_date = PostgresOperator(
-    #     task_id="insert-card",
-    #     sql="insert into cards ( name, url, price) values (%(name)s, %(url)s, %(price)s);",
-    #     parameters=asdict(card),
-    # )
+    insert_card = get_birth_date = PostgresOperator(
+        task_id="insert-card",
+        sql="sql/insert-card.sql",
+        params=asdict(card),
+    )
 
     end = DummyOperator(task_id='End')
 
-    start >> print_card_info >> create_table_cards >> end
+    start >> print_card_info >> create_table_cards >> insert_card >> end
