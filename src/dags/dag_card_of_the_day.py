@@ -4,7 +4,7 @@ from airflow.operators.dummy import DummyOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.utils.dates import days_ago
 
-from twitter import tweet_card
+from twitter import tweet_best_card
 
 with DAG(
     dag_id='dag_card_of_the_day',
@@ -23,7 +23,7 @@ with DAG(
 
     tweet = PythonOperator(
         task_id='tweet',
-        python_callable=tweet_card,
+        python_callable=tweet_best_card,
         op_args=[card]
     )
 

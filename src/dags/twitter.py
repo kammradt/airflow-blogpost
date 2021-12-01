@@ -15,18 +15,28 @@ def get_authenticated_client() -> tweepy.API:
 
     return tweepy.API(auth)
 
-def tweet_card(card):
+def tweet_random_card(card):
     client = get_authenticated_client()
     filename = 'card_image.png'
-
-    return card
 
     with open(filename, 'wb') as handler:
         # Baixa a imagem
         handler.write(get(card['url'], allow_redirects=True).content)
         #Faz o tweet
-        tweet_text = f'A carta aleatória de agora é: {card["name"]}, com valor de ${card["price"]}'
-        #client.update_with_media(filename, tweet_text)
+        tweet_text = f'A carta aleatória de agora é: {card["@name"]}, com valor de ${card["price"]}'
+        client.update_with_media(filename, tweet_text)
         #Exclui o arquivo da imagem
         os.remove(filename)
-        return tweet_text
+
+def tweet_best_card(card):
+    client = get_authenticated_client()
+    filename = 'card_image.png'
+
+    with open(filename, 'wb') as handler:
+        # Baixa a imagem
+        handler.write(get(card['url'], allow_redirects=True).content)
+        #Faz o tweet
+        tweet_text = f'A carta mais cara de hoje foi: {card["name"]}, com valor de ${card["price"]}'
+        client.update_with_media(filename, tweet_text)
+        #Exclui o arquivo da imagem
+        os.remove(filename)

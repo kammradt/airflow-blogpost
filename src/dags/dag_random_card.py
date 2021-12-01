@@ -8,7 +8,7 @@ from airflow.operators.dummy import DummyOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.utils.dates import days_ago
 
-from twitter import tweet_card
+from twitter import tweet_random_card
 
 @dataclass
 class Card:
@@ -55,7 +55,7 @@ with DAG(
         sql="sql/create-table-cards.sql"
     )
 
-    insert_card = get_birth_date = PostgresOperator(
+    insert_card = PostgresOperator(
         task_id="insert-card",
         sql="sql/insert-card.sql",
         params=asdict(card),
@@ -63,7 +63,7 @@ with DAG(
 
     tweet = PythonOperator(
         task_id='tweet',
-        python_callable=tweet_card,
+        python_callable=tweet_random_card,
         op_args=[asdict(card)]
     )
 
