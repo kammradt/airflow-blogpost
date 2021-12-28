@@ -23,7 +23,7 @@ def tweet_random_card(card):
         # Baixa a imagem
         handler.write(get(card['url'], allow_redirects=True).content)
         #Faz o tweet
-        tweet_text = f'A carta aleatória de agora é: {card["@name"]}, com valor de ${card["price"]}'
+        tweet_text = f'A carta aleatória de agora é: {card["name"]}, com valor de ${card["price"]}'
         client.update_with_media(filename, tweet_text)
         #Exclui o arquivo da imagem
         os.remove(filename)
